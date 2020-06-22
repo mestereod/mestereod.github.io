@@ -1,0 +1,70 @@
+
+  header {
+    margin: 10px;
+  }
+
+  body {
+    background: darkgray;
+    font: medium Arial, sans-serif;
+    
+  }
+
+  article {
+    background: #fdbf8c;
+    border-style: groove;
+    border-radius: 10px;
+    margin: 10px;
+  }
+
+  section {
+      margin: 10px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 10px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    border-radius: 10px;
+  }
+  
+  li {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li:hover {
+    background-color: rgb(255, 255, 255);
+    color: black;
+  }
+
+  .active {
+    background-color: #ee6b00;
+  }
+
+  article {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: right;
+  }
+
+  #
+
+  input {
+     width: 75px;
+  }
+
+  footer {
+      margin: 100px;
+      font-size: small;
+      text-align: center;
+  }
+
+  

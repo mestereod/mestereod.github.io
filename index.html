@@ -1,7 +1,100 @@
-<!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
-</html>
+<!DOCTYPE html>  
+
+<html>  
+    <head> 
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="layout.css">
+        <title>Distributions Calculator</title> 
+    </head> 
+
+    <body> 
+        <header role = "banner"> 
+            <h1>Statistic Distribution Calculator</h1> 
+        </header> 
+    
+        <nav> 
+            <ul> 
+                <li id="home" class="active" onclick="openHomeContent()">Home</li> 
+                <li id="normal" onclick="openNormalContent()">Normal Distribution</li> 
+            </ul> 
+        </nav> 
+    
+        <article> 
+            <section id="description" class="content"> 
+                <p>To calculate distribution, choose in tab which distribution and write your inputs and click in calculate button.</p>
+            </section>
+            <section id="result" class="content">
+            </section>
+        </article> 
+    
+        <footer> 
+            <p>Created by <a href = "https://github.com/mestereod">Kevin Oliveira</a></p> 
+        </footer> 
+
+        <script>
+            function toogleActive(nextActive)
+            {
+                active = document.getElementsByClassName("active");
+                for (i = 0; i < active.length; i++) {
+                    active[i].classList.remove("active");
+                }
+                var tab = document.getElementById(nextActive);
+                tab.classList.add("active");
+            }
+
+            function clearContent()
+            {
+                content = document.getElementsByClassName("content");
+                for (i = 0; i < content.length; i++) {
+                    content[i].innerHTML = "";
+                }
+            }
+
+            function openHomeContent()
+            {
+                toogleActive("home");
+                clearContent();
+                var element = document.getElementById("description");
+                const description = "<p>To calculate distribution, choose in tab which distribution and write your inputs and click in calculate button.</p>";
+                element.innerHTML = description;
+            }
+
+            function openNormalContent()
+            {
+                toogleActive("normal");
+                clearContent();
+                var element = document.getElementById("description");
+                const description = "<p>Calculate normal distribution</p>";
+                const inputs = "<p>Mean: <input type='number' id='mean' min='0' value='0'><br>Standard Deviation: <input type='number' id='sigma' min='1' value='1'><br>X-Value: <input type='number' id='samples' value='2'></p>";
+                const button = "<p><button id='calculateNormal' onclick='calcNormal()'>Calculate</button></p>";
+                element.innerHTML = description+inputs+button;
+            }
+
+            function calcNormal(mean, sigma, sample)
+            {
+                var element = document.getElementById("result");
+                normal_result = normal(document.getElementById('mean').value, document.getElementById('sigma').value, document.getElementById('samples').value);
+                element.innerHTML = "<p>Result: "+normal_result+"</p>";
+            }
+
+            function normal(mean, sigma, to) 
+            {
+                var z = (to-mean)/Math.sqrt(2*sigma*sigma);
+                var t = 1/(1+0.3275911*Math.abs(z));
+                var a1 =  0.254829592;
+                var a2 = -0.284496736;
+                var a3 =  1.421413741;
+                var a4 = -1.453152027;
+                var a5 =  1.061405429;
+                var erf = 1-(((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-z*z);
+                var sign = 1;
+                if(z < 0)
+                {
+                    sign = -1;
+                }
+                return (1/2)*(1+sign*erf);
+            }
+        </script>
+   </body> 
+</html> 
