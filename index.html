@@ -1,0 +1,151 @@
+<!DOCTYPE html>  
+
+<html>  
+    <head> 
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="layout.css">
+        <script src="jstat.min.js"></script>
+        <title>Distributions Calculator</title> 
+    </head> 
+
+    <body> 
+        <header role="banner"> 
+            Statistic Distribution Calculator
+        </header> 
+    
+        <nav> 
+            <ul> 
+                <li id="home" class="active" onclick="openHomeContent()">Home</li> 
+                <li id="Normal" onclick="openCalcContent('Normal',0)">Normal</li> 
+                <li id="Exponential" onclick="openCalcContent('Exponential',1)">Exponential</li>
+                <li id="Binomial" onclick="openCalcContent('Binomial',2)">Binominal</li>
+            </ul> 
+        </nav> 
+    
+        <article> 
+            <section id="description" class="content"> 
+                <p>Choose in tab which distribution and write your inputs to calculate.</p>
+            </section>
+            <section id="result" class="content"></section>
+        </article> 
+    
+        <footer> 
+            <p>Created by <a href = "https://github.com/mestereod">Kevin Oliveira</a></p> 
+        </footer> 
+
+        
+        <script>
+            function toogleActive(nextActive)
+            {
+                active = document.getElementsByClassName("active");
+                for (i = 0; i < active.length; i++) {
+                    active[i].classList.remove("active");
+                }
+                var tab = document.getElementById(nextActive);
+                tab.classList.add("active");
+            }
+
+            function clearContent()
+            {
+                content = document.getElementsByClassName("content");
+                for (i = 0; i < content.length; i++) {
+                    content[i].innerHTML = "";
+                }
+            }
+
+            function openHomeContent()
+            {
+                toogleActive("home");
+                clearContent();
+                var element = document.getElementById("description");
+                element.style.textAlign = "left";
+                const description = "<p>Choose in tab which distribution and write your inputs to calculate.</p>";
+                element.innerHTML = description;
+            }
+
+            function openCalcContent(type, i)
+            {
+                toogleActive(type);
+                clearContent();
+                var element = document.getElementById("description");
+                const description = "<p>Calculate "+type+" Distribution</p>";
+                formula = '';
+                inputs = '';
+                switch(i){
+                case 0: 
+                    formula = "<p>X∼N(μ,σ)</p>";
+                    inputs = "<p>μ: <input type='number' id='mean' min='0'></p><p>σ: <input type='number' id='sigma' min='1'></p><p>x: <input type='number' id='sample'></p>";
+                    break;
+                case 1:
+                    formula = "<p>X∼exp(λ)</p>";
+                    inputs = "<p>λ: <input type='number' id='lambda' min='1'></p><p>x: <input type='number' id='sample'></p>";
+                    break;
+                case 2:
+                    formula = "<p>X∼Bin(n,p)</p>";
+                    inputs = "<p>n: <input type='number' id='n' min='1'></p><p>p: <input type='number' id='p'></p><p>x: <input type='number' id='sample'></p>";
+                    break;
+                default:
+                    console.log("Open Content Error");
+
+
+                }
+                const button = "<button id='calculate' onclick='calc("+i+")'>Calculate</button><br>";
+                element.innerHTML = description+formula+inputs+button;
+            }
+
+            function calc(i)
+            {
+                var element = document.getElementById("result");
+                switch(i) {
+                    case 0:
+                        x = document.getElementById('sample').value;
+                        mean = document.getElementById('mean').value
+                        sigma = document.getElementById('sigma').value;
+                        normal_pdf = jStat.normal.cdf(x, mean, sigma);
+                        normal_cdf = jStat.normal.pdf(x, mean, sigma);
+                        element.innerHTML = "P(X > x): "+normal_pdf+"<br>P(X < x): "+normal_cdf;
+                    break;
+                    case 1: 
+                        lambda = document.getElementById('lambda').value;
+                        x = document.getElementById('sample').value;
+                        expo_pdf = jStat.exponential.pdf(x, lambda);
+                        expo_cdf = jStat.exponential.cdf(x, lambda);
+                        element.innerHTML = "P(X > x): "+expo_pdf+"<br>P(X < x): "+expo_cdf;
+                    break;
+                    case 2:
+                        n = document.getElementById('n').value;
+                        p = document.getElementById('p').value;
+                        x = document.getElementById('sample').value;
+                        bino_pmf = combination(n, x) * Math.pow(p, x) * Math.pow(1-p, n-x);
+                        element.innerHTML = "P(X = x): "+bino_pmf;
+                    break;
+                    default: console.log("Calc Error");
+                }
+            }
+
+            function productRange(a,b) 
+            {
+                var product=a,i=a;
+                while (i++<b) {
+                    product*=i;
+                }
+                return product;
+            }
+
+            function combination(n,k) 
+            {
+                if (n==k || k==0) {
+                    return 1;
+                } 
+                else if (n < k) {
+                    return 0;
+                }
+                else {
+                    k=Math.max(k,n-k);
+                    return productRange(k+1,n)/productRange(1,n-k);
+                }
+            }
+        </script>
+   </body> 
+</html> 
