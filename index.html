@@ -4,8 +4,24 @@
     <head> 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="layout.css">
-        <script src="jstat.min.js"></script>
+        <meta name="theme-color" content="rgb(146, 58, 0)">
+        <link rel="apple-touch-icon" href="icons/calc.png">
+        <link rel="manifest" href="manifest.json">
+        <link rel="stylesheet" href="styles/layout.css">
+        <script src="scripts/jstat.min.js"></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    // Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }, function(err) {
+                    // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }            
+        </script>
         <title>Distribution Calculator</title> 
     </head> 
 

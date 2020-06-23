@@ -1,0 +1,15 @@
+{
+    "name": "Distribution Calculator",
+    "short_name": "Distribution",
+    "theme_color": "rgb(146,58,0)",
+    "background_color": "darkgray",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/index.html",
+    "icons": [
+        {
+          "src": "icons/calc.png",
+          "sizes": "1024x1024",
+          "type": "image/png"
+        }]
+  }
