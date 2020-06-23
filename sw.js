@@ -1,5 +1,6 @@
 var CACHE_NAME = 'DistCalculator-Cache';
 var urlsToCache = [
+  '/icons/calc.png',
   '/index.html',
   '/styles/layout.css',
   '/scripts/jstat.min.js'
