@@ -121,9 +121,9 @@
                         x = document.getElementById('sample').value;
                         mean = document.getElementById('mean').value
                         sigma = document.getElementById('sigma').value;
-                        variance = jStat.normal.variance(mean, sigma);
-                        normal_pdf = jStat.normal.cdf(x, mean, sigma);
-                        normal_cdf = jStat.normal.pdf(x, mean, sigma);
+                        variance = round(jStat.normal.variance(mean, sigma), 5);
+                        normal_cdf = round(jStat.normal.cdf(x, mean, sigma),5);
+                        normal_pdf = round(jStat.normal.pdf(x, mean, sigma),5);
                         element.innerHTML = "E(X) = "+mean+"<br>SD(X) = "+sigma+"<br>Var(X) = "+variance+"<br>P(X > x) = "+normal_pdf+"<br>P(X < x) = "+normal_cdf;
                     break;
                     case 1: 
@@ -134,7 +134,7 @@
                         sigma = Math.sqrt(variance);
                         expo_pdf = jStat.exponential.pdf(x, lambda);
                         expo_cdf = jStat.exponential.cdf(x, lambda);
-                        element.innerHTML = "E(X) = "+mean+"<br>SD(X) = "+sigma+"<br>Var(X) = "+variance+"<br>P(X > x): "+expo_pdf+"<br>P(X < x): "+expo_cdf;
+                        element.innerHTML = "E(X) = "+round(mean,5)+"<br>SD(X) = "+round(sigma, 5)+"<br>Var(X) = "+round(variance,5)+"<br>P(X > x): "+round(expo_pdf,5)+"<br>P(X < x): "+round(expo_cdf,5);
                     break;
                     case 2:
                         n = document.getElementById('n').value;
@@ -144,11 +144,17 @@
                         variance = n*p*(1-p);
                         sigma = Math.sqrt(variance);
                         bino_pmf = combination(n, x) * Math.pow(p, x) * Math.pow(1-p, n-x);
-                        element.innerHTML = "E(X) = "+mean+"<br>SD(X) = "+sigma+"<br>Var(X) = "+variance+"<br>P(X = x): "+bino_pmf;
+                        element.innerHTML = "E(X) = "+round(mean,5)+"<br>SD(X) = "+round(sigma,5)+"<br>Var(X) = "+round(variance,5)+"<br>P(X = x): "+round(bino_pmf,5);
                     break;
                     default: console.log("Calc Error");
                 }
             }
+
+            function round(num, dec) 
+            {
+                return(Math.round(num*Math.pow(10,dec)) / Math.pow(10,dec));
+            }
+
 
             function productRange(a,b) 
             {
