@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="layout.css">
         <script src="jstat.min.js"></script>
-        <title>Distributions Calculator</title> 
+        <title>Distribution Calculator</title> 
     </head> 
 
     <body> 
@@ -24,7 +24,8 @@
         </nav> 
     
         <article> 
-            <section id="description" class="content"> 
+            <section id="description" class="content">
+                <p><b>Home</b></p>
                 <p>Choose in tab which distribution and write your inputs to calculate.</p>
             </section>
             <section id="result" class="content"></section>
@@ -60,7 +61,7 @@
                 clearContent();
                 var element = document.getElementById("description");
                 element.style.textAlign = "left";
-                const description = "<p>Choose in tab which distribution and write your inputs to calculate.</p>";
+                const description = "<p><b>Home</b></p><p>Choose in tab which distribution and write your inputs to calculate.</p>";
                 element.innerHTML = description;
             }
 
@@ -69,7 +70,7 @@
                 toogleActive(type);
                 clearContent();
                 var element = document.getElementById("description");
-                const description = "<p>Calculate "+type+" Distribution</p>";
+                const description = "<p><b>Calculate "+type+" Distribution</b></p>";
                 formula = '';
                 inputs = '';
                 switch(i){

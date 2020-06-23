@@ -3,7 +3,7 @@
     height: 50%;
     display: table;
     margin: auto;
-    max-width: 360px;
+    max-width: 358px;
   }
 
   header {
@@ -16,6 +16,20 @@
     border-color: rgb(146, 58, 0);
     border-width: 5px;
     margin-bottom: 5px;
+    animation-duration: 1s;
+    animation-name: header;
+    text-shadow: 4px 4px 8px #000000;
+  }
+
+  @keyframes header {
+    from {
+      font: 1px;
+
+    }
+    to {
+      font:18px;
+
+    }
   }
 
   body {
@@ -24,7 +38,7 @@
     height: 100%;
     background: darkgray;
     font: medium Arial, sans-serif;
-  }
+}
 
   ul {
     list-style-type: none;
@@ -35,13 +49,14 @@
     border-radius: 10px;
     margin-bottom: 5px;
   }
-  
+
   li {
     display: inline-block;
     color: white;
     text-align: center;
     padding: 10px 12px;
     text-decoration: none;
+    text-shadow: 2px 2px 4px #000000;
   }
   
   li:hover {
@@ -50,13 +65,29 @@
   }
 
   .active {
-    background-color: rgb(146, 58, 0);
+    background-color: rgb(218, 88, 1);
+    animation-duration: 1s;
+    animation-name: active;
+  }
+
+  @keyframes active {
+    from {
+      background-color: lightgray;
+    }
+    to {
+      background-color: rgb(218, 88, 1);
+    }
+  }
+
+  #result {
+
   }
 
   article {
     background: #fdbf8c;
     border-color: #fdbf8c;
     border-style: solid;
+    min-height: 290px;
     border-width: 10px;
     border-radius: 10px;
     margin-bottom: 5px;
@@ -72,8 +103,8 @@
     margin: 10px;
   }
 
-  section p {
-      display: flex;
+  section b {
+    text-shadow: 1px 1px 3px #000000;
   }
 
   input {
