@@ -3,7 +3,7 @@
     height: 50%;
     display: table;
     margin: auto;
-    max-width: 358px;
+    max-width: 349px;
   }
 
   header {
@@ -87,7 +87,7 @@
     background: #fdbf8c;
     border-color: #fdbf8c;
     border-style: solid;
-    min-height: 290px;
+    min-height: 350px;
     border-width: 10px;
     border-radius: 10px;
     margin-bottom: 5px;

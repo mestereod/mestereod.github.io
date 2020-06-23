@@ -93,15 +93,15 @@
                 inputs = '';
                 switch(i){
                 case 0: 
-                    formula = "<p>X∼N(μ,σ)</p>";
+                    formula = "<p><b>X∼N(μ,σ)</b></p>";
                     inputs = "<p>μ: <input type='number' id='mean' min='0'></p><p>σ: <input type='number' id='sigma' min='1'></p><p>x: <input type='number' id='sample'></p>";
                     break;
                 case 1:
-                    formula = "<p>X∼exp(λ)</p>";
+                    formula = "<p><b>X∼exp(λ)</b></p>";
                     inputs = "<p>λ: <input type='number' id='lambda' min='1'></p><p>x: <input type='number' id='sample'></p>";
                     break;
                 case 2:
-                    formula = "<p>X∼Bin(n,p)</p>";
+                    formula = "<p><b>X∼Bin(n,p)</b></p>";
                     inputs = "<p>n: <input type='number' id='n' min='1'></p><p>p: <input type='number' id='p'></p><p>x: <input type='number' id='sample'></p>";
                     break;
                 default:
@@ -121,23 +121,30 @@
                         x = document.getElementById('sample').value;
                         mean = document.getElementById('mean').value
                         sigma = document.getElementById('sigma').value;
+                        variance = jStat.normal.variance(mean, sigma);
                         normal_pdf = jStat.normal.cdf(x, mean, sigma);
                         normal_cdf = jStat.normal.pdf(x, mean, sigma);
-                        element.innerHTML = "P(X > x): "+normal_pdf+"<br>P(X < x): "+normal_cdf;
+                        element.innerHTML = "E(X) = "+mean+"<br>SD(X) = "+sigma+"<br>Var(X) = "+variance+"<br>P(X > x) = "+normal_pdf+"<br>P(X < x) = "+normal_cdf;
                     break;
                     case 1: 
                         lambda = document.getElementById('lambda').value;
                         x = document.getElementById('sample').value;
+                        mean = 1/lambda;
+                        variance = 1/(lambda*lambda);
+                        sigma = Math.sqrt(variance);
                         expo_pdf = jStat.exponential.pdf(x, lambda);
                         expo_cdf = jStat.exponential.cdf(x, lambda);
-                        element.innerHTML = "P(X > x): "+expo_pdf+"<br>P(X < x): "+expo_cdf;
+                        element.innerHTML = "E(X) = "+mean+"<br>SD(X) = "+sigma+"<br>Var(X) = "+variance+"<br>P(X > x): "+expo_pdf+"<br>P(X < x): "+expo_cdf;
                     break;
                     case 2:
                         n = document.getElementById('n').value;
                         p = document.getElementById('p').value;
                         x = document.getElementById('sample').value;
+                        mean = n*p;
+                        variance = n*p*(1-p);
+                        sigma = Math.sqrt(variance);
                         bino_pmf = combination(n, x) * Math.pow(p, x) * Math.pow(1-p, n-x);
-                        element.innerHTML = "P(X = x): "+bino_pmf;
+                        element.innerHTML = "E(X) = "+mean+"<br>SD(X) = "+sigma+"<br>Var(X) = "+variance+"<br>P(X = x): "+bino_pmf;
                     break;
                     default: console.log("Calc Error");
                 }
