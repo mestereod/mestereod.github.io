@@ -1,70 +1,96 @@
 
+  html {
+    height: 100%;
+    display: table;
+    margin: auto;
+    max-width: 360px;
+  }
+
   header {
-    margin: 10px;
+    color: white;
+    font-size: x-large;
+    text-align: center;
+    background: rgb(146, 58, 0);
+    border-style: solid;
+    border-radius: 10px;
+    border-color: rgb(146, 58, 0);
+    border-width: 5px;
+    margin-bottom: 5px;
   }
 
   body {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
     background: darkgray;
     font: medium Arial, sans-serif;
-    
-  }
-
-  article {
-    background: #fdbf8c;
-    border-style: groove;
-    border-radius: 10px;
-    margin: 10px;
-  }
-
-  section {
-      margin: 10px;
   }
 
   ul {
     list-style-type: none;
-    margin: 10px;
+    margin: auto;
     padding: 0;
     overflow: hidden;
     background-color: #333;
     border-radius: 10px;
+    margin-bottom: 5px;
   }
   
   li {
-    float: left;
-    display: block;
+    display: inline-block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 10px 12px;
     text-decoration: none;
   }
   
-  /* Change the link color to #111 (black) on hover */
   li:hover {
-    background-color: rgb(255, 255, 255);
+    background-color: lightgray;
     color: black;
   }
 
   .active {
-    background-color: #ee6b00;
+    background-color: rgb(146, 58, 0);
   }
 
   article {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: right;
+    background: #fdbf8c;
+    border-color: #fdbf8c;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
   }
 
-  #
+  button {
+      min-width: 75px;
+      max-width: 100px;
+  }
+
+  section {
+    display: table;
+    margin: 10px;
+  }
+
+  section p {
+      display: flex;
+  }
 
   input {
      width: 75px;
   }
 
   footer {
-      margin: 100px;
+      color: white;
+      background: #333;
+      list-style-type: none;
+      margin: auto;
+      padding: 3px 5px;
+      border-radius: 10px;
       font-size: small;
       text-align: center;
   }
+  footer a {
+      color: white;
+  }
 
-  
