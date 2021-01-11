@@ -1,59 +1,183 @@
-<!doctype html>
-<style>
-    textarea { vertical-align: bottom; }
-    #output { overflow: auto; }
-    #output > p { overflow-wrap: break-word; }
-    #output span { color: blue; }
-    #output span.error { color: red; }
-</style>
-<h2>WebSocket Test</h2>
-<textarea cols=60 rows=6></textarea>
-<button>send</button>
-<div id=output></div>
-<script>
-    // http://www.websocket.org/echo.html
+<!DOCTYPE html>  
 
-    var button = document.querySelector("button"),
-        output = document.querySelector("#output"),
-        textarea = document.querySelector("textarea"),
-        // wsUri = "ws://echo.websocket.org/",
-		//wsUri = "ws://127.0.0.1/", --for local connection to default port 80
-        wsUri = "ws://each.sytes.net:7777/",
-        websocket = new WebSocket(wsUri);
+<html>  
+    <head> 
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="rgb(146, 58, 0)">
+        <meta name="description" content="Calculate Normal, Exponential or Binomial Distributions">
+        <title>Distribution Calculator</title>
+        <link rel="icon" type="image/png" href="icons/calc.png"/>
+        <link rel="apple-touch-icon" href="icons/calc.png">
+        <link rel="manifest" href="manifest.json">
+        <link rel="stylesheet" href="styles/layout.css">
+        <script src="scripts/jstat.min.js"></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    // Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }, function(err) {
+                    // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }            
+        </script>
+    </head> 
 
-    button.addEventListener("click", onClickButton);
+    <body> 
+        <header role="banner"> 
+            Statistic Distribution Calculator
+        </header> 
+    
+        <nav> 
+            <ul> 
+                <li id="home" class="active" onclick="openHomeContent()">Home</li> 
+                <li id="Normal" onclick="openCalcContent('Normal',0)">Normal</li> 
+                <li id="Exponential" onclick="openCalcContent('Exponential',1)">Exponential</li>
+                <li id="Binomial" onclick="openCalcContent('Binomial',2)">Binomial</li>
+            </ul> 
+        </nav> 
+    
+        <article> 
+            <section id="description" class="content">
+                <p><b>Home</b></p>
+                <p>Choose in tab which distribution and write your inputs to calculate.</p>
+            </section>
+            <section id="result" class="content"></section>
+        </article> 
+    
+        <footer> 
+            <p>Created by <a href = "https://github.com/mestereod">Kevin Oliveira</a></p> 
+        </footer> 
 
-    websocket.onopen = function (e) {
-        writeToScreen("CONNECTED");
-        doSend("WebSocket rocks");
-    };
+        
+        <script>
+            function toogleActive(nextActive)
+            {
+                active = document.getElementsByClassName("active");
+                for (i = 0; i < active.length; i++) {
+                    active[i].classList.remove("active");
+                }
+                var tab = document.getElementById(nextActive);
+                tab.classList.add("active");
+            }
 
-    websocket.onclose = function (e) {
-        writeToScreen("DISCONNECTED");
-    };
+            function clearContent()
+            {
+                content = document.getElementsByClassName("content");
+                for (i = 0; i < content.length; i++) {
+                    content[i].innerHTML = "";
+                }
+            }
 
-    websocket.onmessage = function (e) {
-        writeToScreen("<span>RESPONSE: " + e.data + "</span>");
-    };
+            function openHomeContent()
+            {
+                toogleActive("home");
+                clearContent();
+                var element = document.getElementById("description");
+                element.style.textAlign = "left";
+                const description = "<p><b>Home</b></p><p>Choose in tab which distribution and write your inputs to calculate.</p>";
+                element.innerHTML = description;
+            }
 
-    websocket.onerror = function (e) {
-        writeToScreen("<span class=error>ERROR:</span> " + e.data);
-    };
+            function openCalcContent(type, i)
+            {
+                toogleActive(type);
+                clearContent();
+                var element = document.getElementById("description");
+                const description = "<p><b>Calculate "+type+" Distribution</b></p>";
+                formula = '';
+                inputs = '';
+                switch(i){
+                case 0: 
+                    formula = "<p><b>X∼N(μ,σ)</b></p>";
+                    inputs = "<p>μ: <input type='number' id='mean' min='0'></p><p>σ: <input type='number' id='sigma' min='1'></p><p>x: <input type='number' id='sample'></p>";
+                    break;
+                case 1:
+                    formula = "<p><b>X∼exp(λ)</b></p>";
+                    inputs = "<p>λ: <input type='number' id='lambda' min='1'></p><p>x: <input type='number' id='sample'></p>";
+                    break;
+                case 2:
+                    formula = "<p><b>X∼Bin(n,p)</b></p>";
+                    inputs = "<p>n: <input type='number' id='n' min='1'></p><p>p: <input type='number' id='p'></p><p>x: <input type='number' id='sample'></p>";
+                    break;
+                default:
+                    console.log("Open Content Error");
 
-    function doSend(message) {
-        writeToScreen("SENT: " + message);
-        websocket.send(message);
-    }
 
-    function writeToScreen(message) {
-        output.insertAdjacentHTML("afterbegin", "<p>" + message + "</p>");
-    }
+                }
+                const button = "<button id='calculate' onclick='calc("+i+")'>Calculate</button><br>";
+                element.innerHTML = description+formula+inputs+button;
+            }
 
-    function onClickButton() {
-        var text = textarea.value;
+            function calc(i)
+            {
+                var element = document.getElementById("result");
+                switch(i) {
+                    case 0:
+                        x = document.getElementById('sample').value;
+                        mean = document.getElementById('mean').value
+                        sigma = document.getElementById('sigma').value;
+                        variance = jStat.normal.variance(mean, sigma);
+                        normal_cdf = jStat.normal.cdf(x, mean, sigma);
+                        normal_pdf = 1-normal_cdf;
+                        element.innerHTML = "E(X) = "+mean+"<br>SD(X) = "+sigma+"<br>Var(X) = "+variance+"<br>P(X > x) = "+round(normal_pdf,5)+"<br>P(X < x) = "+round(normal_cdf,5);
+                    break;
+                    case 1: 
+                        lambda = document.getElementById('lambda').value;
+                        x = document.getElementById('sample').value;
+                        mean = 1/lambda;
+                        variance = 1/(lambda*lambda);
+                        sigma = Math.sqrt(variance);
+                        expo_cdf = jStat.exponential.cdf(x, lambda);
+                        expo_pdf = 1-expo_cdf;
+                        element.innerHTML = "E(X) = "+round(mean,5)+"<br>SD(X) = "+round(sigma, 5)+"<br>Var(X) = "+round(variance,5)+"<br>P(X > x): "+round(expo_pdf,5)+"<br>P(X < x): "+round(expo_cdf,5);
+                    break;
+                    case 2:
+                        n = document.getElementById('n').value;
+                        p = document.getElementById('p').value;
+                        x = document.getElementById('sample').value;
+                        mean = n*p;
+                        variance = n*p*(1-p);
+                        sigma = Math.sqrt(variance);
+                        bino_pmf = combination(n, x) * Math.pow(p, x) * Math.pow(1-p, n-x);
+                        element.innerHTML = "E(X) = "+round(mean,5)+"<br>SD(X) = "+round(sigma,5)+"<br>Var(X) = "+round(variance,5)+"<br>P(X = x): "+round(bino_pmf,5);
+                    break;
+                    default: console.log("Calc Error");
+                }
+            }
 
-        text && doSend(text);
-        textarea.value = "";
-        textarea.focus();
-    }
-</script>
+            function round(num, dec) 
+            {
+                return(Math.round(num*Math.pow(10,dec)) / Math.pow(10,dec));
+            }
+
+
+            function productRange(a,b) 
+            {
+                var product=a,i=a;
+                while (i++<b) {
+                    product*=i;
+                }
+                return product;
+            }
+
+            function combination(n,k) 
+            {
+                if (n==k || k==0) {
+                    return 1;
+                } 
+                else if (n < k) {
+                    return 0;
+                }
+                else {
+                    k=Math.max(k,n-k);
+                    return productRange(k+1,n)/productRange(1,n-k);
+                }
+            }
+        </script>
+   </body> 
+</html> 
